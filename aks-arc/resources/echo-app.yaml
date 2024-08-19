@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-app
+  namespace: echo-app
+  labels:
+    app: echo-app
+spec:
+  replicas: 1
+  provider: azure
+  selector:
+    matchLabels:
+      app: echo-app
+  template:
+    metadata:
+      labels:
+        app: echo-app
+    spec:
+      containers:
+      - name: echo-app
+        image: hashicorp/http-echo
+        args:
+        - "-listen=:5678"
+        - '-text="AKS EE test!"'
+        ports:
+        - containerPort: 5678
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: echo-app-service
+  namespace: echo-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: echo-app
+  ports:
+  - port: 80
+    targetPort: 5678
+
+
