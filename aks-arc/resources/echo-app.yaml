@@ -22,7 +22,7 @@ spec:
         image: hashicorp/http-echo
         args:
         - "-listen=:5678"
-        - '-text="AKS EE test!"'
+        - '-text="AKS EE test! Demo!"'
         ports:
         - containerPort: 5678
 ---
